@@ -458,6 +458,16 @@ const bestStaffAward = new Award({
       };
     },
     () => {
+      const requiredStaffTypes: readonly StaffType[] = ["entertainer", "handyman", "mechanic", "security"]
+      const staff = map.getAllEntities('staff')
+      const hasAllStaffTypes = requiredStaffTypes.every(type => staff.some(person => person.staffType === type))
+      const met = hasAllStaffTypes
+      return {
+				text: status(`At least 1 staff member of each staff type`, met),
+				met
+			}
+    },
+    () => {
       const hasConflictingAward = park.awards.some((award) => award.type === "mostUntidy");
       const met = !hasConflictingAward
       return {
