@@ -622,9 +622,17 @@ const mostDisappointingParkAward = new Award({
       };
     },
     () => {
-      const met = true;
+      const disappointingRides = map.rides.filter(
+				// Plugin popularity is scaled by 4, so the C++ threshold of 6 equals 24 here.
+				(ride) => ride.popularity !== null && ride.popularity <= 24
+			)
+     const ridesWithPopularity = map.rides.filter(
+				(ride) => ride.popularity !== null
+			)
+      const popularRides = ridesWithPopularity.length - disappointingRides.length
+      const met = disappointingRides.length >= ridesWithPopularity.length/2;
       return {
-        text: status(`More than half of rides have a satisfaction of 6 or less`, "NOT_IMPLEMENTED"),
+        text: status(`More than half of rides have a satisfaction of 6 or less (Now: ${popularRides}/${ridesWithPopularity})`, met),
         met,
       };
     },
