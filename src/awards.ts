@@ -199,9 +199,11 @@ const mostUntidyParkAward = new Award({
       };
     },
     () => {
+      const hasConflictingAward = park.awards.some((award) => award.type === "mostBeautiful" || award.type === "bestStaff" || award.type === "mostTidy")
+      const met = !hasConflictingAward
       return {
-        text: status("Awards must not be active: Most beautiful, Best staff, or Most tidy", "NOT_IMPLEMENTED"),
-        met: true,
+        text: status("Awards must not be active: Most beautiful, Best staff, or Most tidy", met),
+        met,
       };
     },
   ],
@@ -237,9 +239,11 @@ const tidiestParkAward = new Award({
       };
     },
     () => {
+      const hasConflictingAward = park.awards.some((award) => award.type === "mostUntidy" || award.type === "mostDisappointing")
+      const met = !hasConflictingAward
       return {
-        text: status("Awards must not be active: Most untidy or Most disappointing", "NOT_IMPLEMENTED"),
-        met: true,
+        text: status("Awards must not be active: Most untidy or Most disappointing", met),
+        met,
       };
     },
   ],
@@ -255,7 +259,7 @@ const bestRollerCoastersAward = new Award({
         if (
           ROLLER_COASTER_IDS.indexOf(ride.type) !== -1 &&
           ride.status === "open" &&
-          !(ride.lifecycleFlags & RIDE_LIFECYCLE_CRASHED)
+          !(ride.flags & RIDE_LIFECYCLE_CRASHED)
         ) {
           coasterCount++;
         }
@@ -305,9 +309,11 @@ const bestValueParkAward = new Award({
       };
     },
     () => {
+      const hasConflictingAward = park.awards.some((award) => award.type === "worstValue" || award.type === "mostDisappointing")
+      const met = !hasConflictingAward
       return {
-        text: status("Awards must not be active: Worst value or Most disappointing", "NOT_IMPLEMENTED"),
-        met: true,
+        text: status("Awards must not be active: Worst value or Most disappointing", met),
+        met,
       };
     },
   ],
@@ -342,9 +348,11 @@ const worstValueParkAward = new Award({
       };
     },
     () => {
+      const hasConflictingAward = park.awards.some((award) => award.type === "bestValue")
+      const met = !hasConflictingAward
       return {
-        text: status("Award must not be active: Best value", "NOT_IMPLEMENTED"),
-        met: true,
+        text: status("Award must not be active: Best value", met),
+        met,
       };
     },
   ],
@@ -359,10 +367,10 @@ const bestCustomDesignedRidesAward = new Award({
       for (const ride of map.rides) {
         if (
           // TODO: Missing check for RtdFlag::hasTrack, but not sure if it's available in the API or matters
-          ride.lifecycleFlags & RIDE_LIFECYCLE_NOT_CUSTOM_DESIGN ||
+          ride.flags & RIDE_LIFECYCLE_NOT_CUSTOM_DESIGN ||
           ride.excitement < 5.5 ||
           ride.status !== "open" ||
-          ride.lifecycleFlags & RIDE_LIFECYCLE_CRASHED
+          ride.flags & RIDE_LIFECYCLE_CRASHED
         ) {
           continue;
         }
@@ -376,9 +384,11 @@ const bestCustomDesignedRidesAward = new Award({
       };
     },
     () => {
+      const hasConflictingAward = park.awards.some((award) => award.type === "mostDisappointing")
+      const met = !hasConflictingAward
       return {
-        text: status("Awards must not be active: Most disappointing", "NOT_IMPLEMENTED"),
-        met: true,
+        text: status("Awards must not be active: Most disappointing", met),
+        met,
       };
     },
   ],
@@ -414,9 +424,11 @@ const mostBeautifulParkAward = new Award({
       };
     },
     () => {
+      const hasConflictingAward = park.awards.some((award) => award.type === "mostDisappointing" || award.type === "mostUntidy")
+      const met = !hasConflictingAward
       return {
-        text: status("Awards must not be active: Most untidy or Most disappointing", "NOT_IMPLEMENTED"),
-        met: true,
+        text: status("Awards must not be active: Most untidy or Most disappointing",met),
+        met,
       };
     },
   ],
@@ -446,10 +458,11 @@ const bestStaffAward = new Award({
       };
     },
     () => {
-      const met = true;
+      const hasConflictingAward = park.awards.some((award) => award.type === "mostUntidy");
+      const met = !hasConflictingAward
       return {
-        text: status(`Award must not be active: Most untidy`, "NOT_IMPLEMENTED"),
-        met: met,
+        text: status(`Award must not be active: Most untidy`, met),
+        met,
       };
     },
   ],
@@ -527,10 +540,11 @@ const bestParkFoodAward = new Award({
       };
     },
     () => {
-      const met = true;
+      const hasConflictingAward = park.awards.some((award) => award.type === "worstFood")
+      const met = !hasConflictingAward
       return {
-        text: status(`Award must not be active: Worst food`, "NOT_IMPLEMENTED"),
-        met: met,
+        text: status(`Award must not be active: Worst food`, met),
+        met,
       };
     },
   ],
@@ -576,10 +590,11 @@ const worstParkFoodAward = new Award({
       };
     },
     () => {
-      const met = true;
+      const hasConflictingAward = park.awards.some((award) => award.type === "bestFood")
+      const met = !hasConflictingAward;
       return {
-        text: status(`Award must not be active: Best food`, "NOT_IMPLEMENTED"),
-        met: met,
+        text: status(`Award must not be active: Best food`, met),
+        met,
       };
     },
   ],
@@ -604,10 +619,11 @@ const mostDisappointingParkAward = new Award({
       };
     },
     () => {
-      const met = true;
+      const hasConflictingAward = park.awards.some((award) => award.type === "bestValue")
+      const met = !hasConflictingAward;
       return {
-        text: status(`Award must not be active: Best value`, "NOT_IMPLEMENTED"),
-        met: met,
+        text: status(`Award must not be active: Best value`, met),
+        met,
       };
     },
   ],
@@ -729,10 +745,11 @@ const mostDazzlingRideColourSchemeAward = new Award({
       };
     },
     () => {
-      const met = true;
+      const hasConflictingAward = park.awards.some((award) => award.type === "mostDisappointing")
+      const met = !hasConflictingAward;
       return {
-        text: status(`Award must not be active: Most disappointing`, "NOT_IMPLEMENTED"),
-        met: met,
+        text: status(`Award must not be active: Most disappointing`, met),
+        met,
       };
     },
   ],
