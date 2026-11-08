@@ -19,6 +19,7 @@
 	"include": [
 		"./lib/**/*.ts",
 		"./src/**/*.ts",
+		"node_modules/@openrct2/types/openrct2.d.ts"
 	],
 	"noEmit": true
 }
