@@ -17,6 +17,7 @@
 		"tslib": "^2.5.0"
 	},
 	"dependencies": {
+		"@openrct2/types": "^0.5.7",
 		"openrct2-flexui": "^0.1.0-prerelease.20"
 	}
 }
